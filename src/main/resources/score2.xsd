@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://soap.springsoap.ceres.com"
+           xmlns:rps="http://soap.springsoap.ceres.com"
+           elementFormDefault="qualified">
+
+    <!-- Root element -->
+    <xs:element name="gameScores" type="rps:GameScoresType"/>
+
+    <!-- Complex type for the root element -->
+    <xs:complexType name="GameScoresType">
+        <xs:sequence>
+            <xs:element name="player" type="rps:PlayerType" minOccurs="2" maxOccurs="2"/>
+            <xs:element name="match" type="rps:MatchType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="statistics" type="rps:StatisticsType" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="gameId" type="xs:string" use="required"/>
+        <xs:attribute name="startTime" type="xs:dateTime" use="required"/>
+        <xs:attribute name="endTime" type="xs:dateTime" use="optional"/>
+    </xs:complexType>
+
+    <!-- Player type -->
+    <xs:complexType name="PlayerType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="score" type="xs:nonNegativeInteger"/>
+        </xs:sequence>
+        <xs:attribute name="playerId" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Match type (individual round) -->
+    <xs:complexType name="MatchType">
+        <xs:sequence>
+            <xs:element name="player1Move" type="rps:MoveType"/>
+            <xs:element name="player2Move" type="rps:MoveType"/>
+            <xs:element name="result" type="rps:ResultType"/>
+        </xs:sequence>
+        <xs:attribute name="roundNumber" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="timestamp" type="xs:dateTime" use="required"/>
+    </xs:complexType>
+
+    <!-- Move type (rock, paper, or scissors) -->
+    <xs:simpleType name="MoveType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="rock"/>
+            <xs:enumeration value="paper"/>
+            <xs:enumeration value="scissors"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Result type -->
+    <xs:simpleType name="ResultType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="player1Wins"/>
+            <xs:enumeration value="player2Wins"/>
+            <xs:enumeration value="draw"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Statistics type -->
+    <xs:complexType name="StatisticsType">
+        <xs:sequence>
+            <xs:element name="totalRounds" type="xs:nonNegativeInteger"/>
+            <xs:element name="draws" type="xs:nonNegativeInteger"/>
+            <xs:element name="player1Stats" type="rps:PlayerStatsType"/>
+            <xs:element name="player2Stats" type="rps:PlayerStatsType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Player statistics type -->
+    <xs:complexType name="PlayerStatsType">
+        <xs:sequence>
+            <xs:element name="wins" type="xs:nonNegativeInteger"/>
+            <xs:element name="losses" type="xs:nonNegativeInteger"/>
+            <xs:element name="rockCount" type="xs:nonNegativeInteger"/>
+            <xs:element name="paperCount" type="xs:nonNegativeInteger"/>
+            <xs:element name="scissorsCount" type="xs:nonNegativeInteger"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

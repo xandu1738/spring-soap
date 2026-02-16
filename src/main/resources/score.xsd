@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://soap.springsoap.ceres.com"
+           xmlns="http://soap.springsoap.ceres.com"
+           elementFormDefault="qualified">
+
+    <!-- ========================= -->
+    <!-- Root Element -->
+    <!-- ========================= -->
+    <xs:element name="RockPaperScissorsMatch">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MatchId" type="xs:string"/>
+                <xs:element name="StartTime" type="xs:dateTime"/>
+                <xs:element name="EndTime" type="xs:dateTime" minOccurs="0"/>
+
+                <xs:element name="Players">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Player" type="PlayerType" maxOccurs="2"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="Rounds">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Round" type="RoundType" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="FinalResult" type="FinalResultType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- ========================= -->
+    <!-- Player Type -->
+    <!-- ========================= -->
+    <xs:complexType name="PlayerType">
+        <xs:sequence>
+            <xs:element name="PlayerId" type="xs:string"/>
+            <xs:element name="PlayerName" type="xs:string"/>
+            <xs:element name="Score" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ========================= -->
+    <!-- Round Type -->
+    <!-- ========================= -->
+    <xs:complexType name="RoundType">
+        <xs:sequence>
+            <xs:element name="RoundNumber" type="xs:int"/>
+            <xs:element name="Player1Move" type="MoveType"/>
+            <xs:element name="Player2Move" type="MoveType"/>
+            <xs:element name="Winner" type="WinnerType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ========================= -->
+    <!-- Final Result Type -->
+    <!-- ========================= -->
+    <xs:complexType name="FinalResultType">
+        <xs:sequence>
+            <xs:element name="Winner" type="WinnerType"/>
+            <xs:element name="TotalRounds" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ========================= -->
+    <!-- Move Enumeration -->
+    <!-- ========================= -->
+    <xs:simpleType name="MoveType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ROCK"/>
+            <xs:enumeration value="PAPER"/>
+            <xs:enumeration value="SCISSORS"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ========================= -->
+    <!-- Winner Enumeration -->
+    <!-- ========================= -->
+    <xs:simpleType name="WinnerType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PLAYER1"/>
+            <xs:enumeration value="PLAYER2"/>
+            <xs:enumeration value="DRAW"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
